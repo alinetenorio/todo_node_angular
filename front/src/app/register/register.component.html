@@ -1,0 +1,54 @@
+<div class="page-wrapper">
+  <div class="container">
+    <div class="form-container" id="register-form">
+      <h2>Cadastro</h2>
+      <form [formGroup]="form" (ngSubmit)="onRegisterSubmit()">
+        <div class="input-group">
+          <label for="register-name">Nome</label>
+          <input
+            type="text"
+            formControlName="name"
+            id="register-name"
+            placeholder="Insira seu nome"
+          />
+          <div *ngIf="form.controls.name.invalid && form.controls.name.touched">
+            Nome é obrigatório.
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="register-email">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            id="register-email"
+            placeholder="Insira seu email"
+          />
+          <div *ngIf="form.controls.email.invalid && form.controls.email.touched">
+            Insira um email válido.
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="register-password">Senha</label>
+          <input
+            type="password"
+            formControlName="password"
+            id="register-password"
+            placeholder="Insira sua senha."
+          />
+          <div *ngIf="form.controls.password.invalid && form.controls.password.touched">
+            A senha deve ter pelo menos 6 caracteres.
+          </div>
+        </div>
+
+        <button type="submit" class="btn" [disabled]="form.invalid">Cadastrar</button>
+
+        <p>
+          Já possui uma conta?
+          <span class="toggle" (click)="showLogin()">Login</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

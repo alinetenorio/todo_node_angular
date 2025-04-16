@@ -1,0 +1,100 @@
+<div class="button-container" *ngIf="isLoggedIn()">
+  <button (click)="logout()" class="btn logout-btn">Logout</button>
+</div>
+
+<div class="page-wrapper">
+  <div class="container">
+    <div class="form-container">
+        <h2>Criar nova tarefa</h2>
+        <form (ngSubmit)="onCreateTask(taskForm)" #taskForm="ngForm">
+            <div class="input-group">
+                <label for="task-description">Descrição</label>
+                <input type="text" id="task-description" [(ngModel)]="newTask.description" name="description" placeholder="Digite a descrição da tarefa" required #description="ngModel" />
+                <div *ngIf="description.invalid && description.touched" class="error-message">
+                  A descrição é obrigatória.
+              </div>
+            </div>
+            <div class="input-group">
+                <label for="task-priority">Prioridade</label>
+                <select id="task-priority" [(ngModel)]="newTask.priority" name="priority" required #priority="ngModel">
+                  <option value="LOW" selected>Baixa</option>
+                  <option value="MEDIUM">Média</option>
+                  <option value="HIGH">Alta</option>
+                </select>
+                <div *ngIf="priority.invalid && priority.touched" class="error-message">
+                  A prioridade é obrigatória.
+              </div>
+            </div>
+            <button type="submit" class="btn" >Criar Tarefa</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+<!-- Pending Tasks -->
+<div class="page-wrapper">
+  <div class="container">
+  <div class="form-container">
+    <h2>Tarefas pendentes</h2>
+
+    <table *ngIf="completedTasks(false).length > 0; else noTasks">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Prioridade</th>
+          <th>Concluída</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let task of tasks">
+        <tr *ngIf="!task.done" (click)="toggleTaskDone(task)">
+            <td><strong>{{ task.description }}</strong></td>
+            <td>{{ translate(task.priority) }}</td>
+            <td>
+                <input type="checkbox" [checked]="task.done" />
+            </td>
+            </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+    <ng-template #noTasks>
+      <p>Não existem tarefas.</p>
+    </ng-template>
+  </div>
+  </div>
+</div>
+
+<!-- Completed Tasks -->
+<div class="page-wrapper">
+  <div class="container">
+    <div class="form-container">
+      <h2>Tarefas concluídas</h2>
+
+      <table *ngIf="completedTasks(true).length > 0 ; else noTasks">
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Prioridade</th>
+            <th>Concluída</th>
+          </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let task of tasks">
+                <tr *ngIf="task.done" (click)="toggleTaskDone(task)">
+                <td><strong>{{ task.description }}</strong></td>
+                <td>{{ translate(task.priority) }}</td>
+                <td>
+                    <input type="checkbox" [checked]="task.done" />
+                </td>
+                </tr>
+            </ng-container>
+        </tbody>
+      </table>
+
+      <ng-template #noTasks>
+        <p>Não existem tarefas.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
